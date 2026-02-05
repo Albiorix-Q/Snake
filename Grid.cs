@@ -11,16 +11,14 @@ namespace Snake
         int spriteSize;
         Vector2 origin;
         Texture2D squareTexture;
-        
+        float margin = 20f;
+
         public Grid(int width, int height, Viewport v, Texture2D squareTexture)
         {
             this.width = width;
             this.height = height;
             this.squareTexture = squareTexture;
-            float margin = 20f;
-            cellSize = Math.Min((v.Width - margin) / width, (v.Height - margin) / height);
-            spriteSize = (int)(cellSize * 0.9f);
-            origin = new Vector2(v.Width / 2, v.Height / 2) - new Vector2(cellSize * width / 2, cellSize * height / 2);
+            CalculateDimensions(v);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -43,6 +41,13 @@ namespace Snake
         public bool OutOfBound(Point p)
         {
             return p.X < 0 || p.Y < 0 || p.X >= width || p.Y >= height;
+        }
+
+        public void CalculateDimensions(Viewport viewport)
+        {
+            cellSize = Math.Min((viewport.Width - margin) / width, (viewport.Height - margin) / height);
+            spriteSize = (int)(cellSize * 0.9f);
+            origin = new Vector2(viewport.Width / 2, viewport.Height / 2) - new Vector2(cellSize * width / 2, cellSize * height / 2);
         }
 
         public int Width

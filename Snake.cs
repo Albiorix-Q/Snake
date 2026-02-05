@@ -78,15 +78,20 @@ namespace Snake
 
         void GetStartingDirection(Point position)
         {
-            // Starting direction should be the direction with the most space towards the center of the grid
-            int xDif = position.X - (grid.Width / 2);
-            int yDif = position.Y - (grid.Height / 2);
-            if (xDif == 0)
+            // Starting direction should be the direction with the most space
+            int right = grid.Width - position.X - 1;
+            int left = position.X;
+            int up = grid.Height - position.Y - 1;
+            int down = position.Y;
+            int maxDistance = Math.Max(Math.Max(Math.Max(right, left), up), down);
+            if (right == maxDistance)
+                direction = new Point(1, 0);
+            else if (left == maxDistance)
                 direction = new Point(-1, 0);
-            else if (Math.Abs(xDif) > Math.Abs(yDif))
-                direction = new Point(Math.Sign(-xDif) * 1, 0);
-            else
-                direction = new Point(0, Math.Sign(-yDif) * 1);
+            else if (up == maxDistance)
+                direction = new Point(0, -1);
+            else if (down == maxDistance)
+                direction = new Point(0, 1);
         }
 
         void HandleInput()

@@ -57,6 +57,23 @@ namespace Snake
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            
+            // Enable fullscreen
+            if (IsKeyPressed(Keys.F))
+            {
+                if (graphics.PreferredBackBufferHeight == 1080)
+                {
+                    graphics.PreferredBackBufferWidth = 800;
+                    graphics.PreferredBackBufferHeight = 480;
+                }
+                else
+                {
+                    graphics.PreferredBackBufferWidth = 1920;
+                    graphics.PreferredBackBufferHeight = 1080;
+                }
+                graphics.ApplyChanges();
+                grid.CalculateDimensions(GraphicsDevice.Viewport);
+            }
 
             // Choose update logic depending on the current game state
             switch (gameState)
@@ -133,7 +150,9 @@ namespace Snake
                     spriteBatch.Draw(squareTexture, r, Color.Black);
                     string gameOverMessage = $"Game over: {snake.Length}/{grid.Width * grid.Height}";
                     textSize = menuFont.MeasureString(gameOverMessage);
-                    spriteBatch.DrawString(menuFont, gameOverMessage, r.Center.ToVector2() - textSize / 2, Color.White);
+                    spriteBatch.DrawString(menuFont, gameOverMessage, r.Center.ToVector2() - new Vector2(textSize.X / 2, textSize.Y), Color.White);
+                    textSize = menuFont.MeasureString("Press <SPACE> to reset");
+                    spriteBatch.DrawString(menuFont, "Press <SPACE> to reset", r.Center.ToVector2() - new Vector2(textSize.X / 2, 0), Color.White);
                     break;
             }
 
