@@ -54,7 +54,7 @@ namespace Snake
             }
         }
 
-        public bool EatApples (Point p)
+        public bool EatApples(Point p)
         {
             bool eats = apples.Contains(p);
             apples.Remove(p);
@@ -63,6 +63,7 @@ namespace Snake
 
         void SpawnApple()
         {
+            // TODO: Spawn apple
             // Calculate the number of unoccupied cells and choose a random index
             int freeCells = grid.Height * grid.Width - apples.Count - snake.Length;
             int targetCell = SnakeGame.random.Next(freeCells);
@@ -88,6 +89,7 @@ namespace Snake
                     break;
             }
             apples.Add(newPos);
+            // END
         }
     }
 }

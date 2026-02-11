@@ -34,12 +34,12 @@ namespace Snake
             previousKeyboardState = Keyboard.GetState();
             random = new Random();
 
-            // Generate a random starting position for the snake, not on the edge
+            //TODO: Generate a random starting position for the snake, not on the edge
             Point startingPos = new Point(random.Next(1, grid.Width-1), random.Next(1, grid.Height - 1));
-            
-            Keys[] controls = { Keys.W, Keys.A, Keys.S, Keys.D };
+            //END
+
             apples = new Apples(squareTexture, grid);
-            snake = new Snake(startingPos, squareTexture, grid, apples, controls);
+            snake = new Snake(startingPos, squareTexture, grid, apples, Keys.W, Keys.A, Keys.S, Keys.D);
             apples.snake = snake;
             stepDuration = 0.2;
             gameState = GameState.Menu;

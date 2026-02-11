@@ -16,9 +16,9 @@ namespace Snake
         Apples apples;
         double stepTimer;
         bool died;
-        Keys[] controls;
+        Keys leftKey, upKey, downKey, rightKey;
 
-        public Snake(Point startingPos, Texture2D squareTexture, Grid grid, Apples apples, Keys[] controls) 
+        public Snake(Point startingPos, Texture2D squareTexture, Grid grid, Apples apples, Keys upKey, Keys leftKey, Keys downKey, Keys rightKey) 
         {
             positions = new List<Point>();
             positions.Add(startingPos);
@@ -28,7 +28,10 @@ namespace Snake
             stepTimer = 0;
             GetStartingDirection(startingPos);
             positions.Add(startingPos - direction);
-            this.controls = controls;
+            this.downKey = downKey;
+            this.upKey = upKey;
+            this.leftKey = leftKey;
+            this.rightKey = rightKey;
         }
 
         public void Update(GameTime gameTime, double stepDuration)
@@ -42,27 +45,33 @@ namespace Snake
             if (stepTimer > 0)
                 return;
 
+            // Save tail of the snake, in case we want to grow this step
+            Point lastPos = positions.Last();
+
+            // Calculate next position of the head of the snake
+            Point nextPos = positions.First() + direction;
+
             // Check for game end: head is going to move into body or wall
-            if (positions.Skip(1).Contains(positions[0] + direction) || grid.OutOfBound(positions[0] + direction))
+            // TODO: Check if the snake collides with itself
+            if (OccupiesCell(nextPos) || grid.OutOfBound(nextPos))
             {
                 died = true;
                 return;
             }
+            // END
 
-            // Save tail of the snake, in case we want to grow this step
-            Point lastPos = positions.Last();
-
-            // For each cell of the snake, move its position one
-            // Move the head of the snake by the direction
+            // TODO: Move each part of the snake one step
             for (int i = positions.Count - 1; i > 0; i--)
             {
                 positions[i] = positions[i - 1];
             }
-            positions[0] += direction;
+            positions[0] = nextPos;
+            // END
 
-            // If we eat an apple this step, add a position at the saved tail
+            //TODO: If we eat an apple this step, add a position at the saved tail
             if (apples.EatApples(positions[0]))
                 positions.Add(lastPos);
+            //END
 
             // Reset the timer
             stepTimer = stepDuration;
@@ -78,7 +87,8 @@ namespace Snake
 
         void GetStartingDirection(Point position)
         {
-            // Starting direction should be the direction with the most space
+            direction = new Point(1, 0);
+            //TODO: Starting direction should be the direction with the most space
             int right = grid.Width - position.X - 1;
             int left = position.X;
             int up = grid.Height - position.Y - 1;
@@ -92,27 +102,30 @@ namespace Snake
                 direction = new Point(0, -1);
             else if (down == maxDistance)
                 direction = new Point(0, 1);
+            //END
         }
 
         void HandleInput()
         {
+            //TODO: Change direction based on keyboard input
             Point oldDirection = direction;
 
-            if (Keyboard.GetState().IsKeyDown(controls[0]))
+            if (Keyboard.GetState().IsKeyDown(upKey))
                 direction = new Point(0, -1);
 
-            if (Keyboard.GetState().IsKeyDown(controls[1]))
+            if (Keyboard.GetState().IsKeyDown(leftKey))
                 direction = new Point(-1, 0);
 
-            if (Keyboard.GetState().IsKeyDown(controls[2]))
+            if (Keyboard.GetState().IsKeyDown(downKey))
                 direction = new Point(0, 1);
 
-            if (Keyboard.GetState().IsKeyDown(controls[3]))
+            if (Keyboard.GetState().IsKeyDown(rightKey))
                 direction = new Point(1, 0);
 
             // Reverse updating the direction if it is towards the tail
             if (positions[0] + direction == positions[1])
                 direction = oldDirection;
+            //END
         }
 
         public bool OccupiesCell(Point p)
