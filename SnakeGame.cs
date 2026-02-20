@@ -35,7 +35,7 @@ namespace Snake
             random = new Random();
 
             //TODO: Generate a random starting position for the snake, not on the edge
-            Point startingPos = new Point(random.Next(1, grid.Width-1), random.Next(1, grid.Height - 1));
+            Point startingPos = new Point(1, 1);
             //END
 
             apples = new Apples(squareTexture, grid);

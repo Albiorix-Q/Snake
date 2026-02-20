@@ -65,30 +65,7 @@ namespace Snake
         {
             // TODO: Spawn apple
             // Calculate the number of unoccupied cells and choose a random index
-            int freeCells = grid.Height * grid.Width - apples.Count - snake.Length;
-            int targetCell = SnakeGame.random.Next(freeCells);
-            
-            // Loop over all cells and increase i if the cell is unoccupied. Check if i equals the random index
-            Point newPos = new Point(-1, -1);
-            int i = 0;
-            for (int y = 0; y < grid.Height; y++)
-            {
-                for (int x = 0; x < grid.Width; x++)
-                {
-                    Point curPoint = new Point(x, y);
-                    if (apples.Contains(curPoint) || snake.OccupiesCell(curPoint))
-                        continue;
-                    if (i == targetCell)
-                    {
-                        newPos = curPoint;
-                        break;
-                    }
-                    i++;
-                }
-                if (newPos != new Point(-1, -1))
-                    break;
-            }
-            apples.Add(newPos);
+
             // END
         }
     }
