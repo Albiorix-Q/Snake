@@ -53,8 +53,8 @@ namespace Snake
 
 
             // Check for game end: head is going to move into body or wall
-            // TODO: Check if the snake collides with itself
-            
+            // TODO: Check if the snake collides with itself or a wall and initiate game end
+            died = false;
             // END
 
 
