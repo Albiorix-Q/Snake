@@ -29,7 +29,7 @@ namespace Snake
         protected override void Initialize()
         {
             base.Initialize();
-            grid = new Grid(10, 4, GraphicsDevice.Viewport, squareTexture);
+            grid = new Grid(10, 10, GraphicsDevice.Viewport, squareTexture);
 
             previousKeyboardState = Keyboard.GetState();
             random = new Random();
