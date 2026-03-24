@@ -14,7 +14,6 @@ namespace Snake
         Apples apples;
         Texture2D squareTexture;
         SpriteFont menuFont;
-        public static Random random;
         double stepDuration;
         GameState gameState;
         KeyboardState previousKeyboardState;
@@ -32,14 +31,9 @@ namespace Snake
             grid = new Grid(10, 10, GraphicsDevice.Viewport, squareTexture);
 
             previousKeyboardState = Keyboard.GetState();
-            random = new Random();
-
-            //TODO: Generate a random starting position for the snake, not on the edge
-            Point startingPos = new Point(1, 1);
-            //END
 
             apples = new Apples(squareTexture, grid);
-            snake = new Snake(startingPos, squareTexture, grid, apples, Keys.W, Keys.A, Keys.S, Keys.D);
+            snake = new Snake(squareTexture, grid, apples, Keys.W, Keys.A, Keys.S, Keys.D);
             apples.snake = snake;
             stepDuration = 0.2;
             gameState = GameState.Menu;
